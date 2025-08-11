@@ -37,10 +37,13 @@ jobs:
           sudo apt install gcc-aarch64-linux-gnu -y
           sudo apt install gcc-arm-linux-gnueabi -y
           sudo apt install aria2 binutils make python3 libssl-dev build-essential bc bison flex unzip libssl-dev ca-certificates xz-utils mkbootimg cpio device-tree-compiler git git-lfs -y
-          curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -
+          curl -LSs "https://raw.githubusercontent.com/Poko-Apps/MemKernel/main/kernel/setup.sh" | bash -s Y
           
-          # Gunakan Proton Clang
-          git clone --depth=1 https://github.com/kdrag0n/proton-clang
+          # Gunakan Google Clang
+          mkdir google-clang && cd google-clang
+          curl -LO https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/67af9f576276f27363074c4388e2cf0963bab6df/clang-r563880b.tar.gz
+          tar -xf clang-r563880b.tar.gz
+          cd ..
 
           # AnyKernel setup
           git clone https://github.com/osm0sis/AnyKernel3
@@ -58,7 +61,7 @@ jobs:
 
       - name: Build Kernel-With-KernelSU
         run: |
-          export PATH=$(pwd)/proton-clang/bin/:$PATH
+          export PATH=$(pwd)/google-clang/bin/:$PATH
           make $KERNEL_CMDLINE $KERNEL_DEFCONFIG CC="ccache clang"
           make $KERNEL_CMDLINE CC="ccache clang" -j$(nproc --all)
           cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3
@@ -74,4 +77,3 @@ jobs:
         with:
           name: memodule
           path: "./out/drivers/memkernel/vinn_memk.ko"
-          
