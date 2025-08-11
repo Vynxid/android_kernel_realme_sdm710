@@ -40,7 +40,7 @@ jobs:
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -
           
           # Gunakan Proton Clang
-          git clone --depth=1 https://github.com/kdrag0n/proton-clang proton-clang
+          git clone --depth=1 https://github.com/kdrag0n/proton-clang
 
           # AnyKernel setup
           git clone https://github.com/osm0sis/AnyKernel3
